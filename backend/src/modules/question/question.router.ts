@@ -14,7 +14,7 @@ const querySchema = z.object({
 
 const shuffle = <T,>(arr: T[]) => arr.sort(() => Math.random() - 0.5);
 
-router.get('/', requireAuth, async (req: AuthRequest, res) => {
+router.get('/', requireAuth, async (req, res) => {
   const parsed = querySchema.safeParse(req.query);
   if (!parsed.success) {
     return res.status(400).json({ message: 'Invalid query', errors: parsed.error.flatten().fieldErrors });

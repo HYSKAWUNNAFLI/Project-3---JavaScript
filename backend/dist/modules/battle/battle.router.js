@@ -27,8 +27,9 @@ const randomScore = (total, difficulty) => {
     return Math.round(total * ratio);
 };
 router.get('/history', auth_1.requireAuth, async (req, res) => {
+    const user = req.user;
     const battles = await prisma_1.prisma.battleMatch.findMany({
-        where: { userId: req.user.userId },
+        where: { userId: user.userId },
         include: { topic: true },
         orderBy: { createdAt: 'desc' },
         take: 15
@@ -36,6 +37,7 @@ router.get('/history', auth_1.requireAuth, async (req, res) => {
     res.json({ battles });
 });
 router.post('/submit', auth_1.requireAuth, async (req, res) => {
+    const user = req.user;
     const parsed = submitSchema.safeParse(req.body);
     if (!parsed.success) {
         return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.flatten().fieldErrors });
@@ -54,7 +56,7 @@ router.post('/submit', auth_1.requireAuth, async (req, res) => {
     const result = userScore === botScore ? 'DRAW' : userScore > botScore ? 'WIN' : 'LOSS';
     const record = await prisma_1.prisma.battleMatch.create({
         data: {
-            userId: req.user.userId,
+            userId: user.userId,
             topicId: topicId || null,
             difficulty,
             userScore,

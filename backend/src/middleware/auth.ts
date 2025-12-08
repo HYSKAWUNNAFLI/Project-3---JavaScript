@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response, type RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 import { env } from '../config/env';
 
@@ -13,7 +13,8 @@ export interface AuthRequest extends Request {
   user?: AuthPayload;
 }
 
-export const authenticate = (req: AuthRequest, _res: Response, next: NextFunction) => {
+export const authenticate: RequestHandler = (req: Request, _res: Response, next: NextFunction) => {
+  const authReq = req as AuthRequest;
   const authHeader = req.headers.authorization;
   if (!authHeader) {
     return next();
@@ -26,16 +27,17 @@ export const authenticate = (req: AuthRequest, _res: Response, next: NextFunctio
 
   try {
     const decoded = jwt.verify(token, env.jwtSecret) as AuthPayload;
-    req.user = decoded;
+    authReq.user = decoded;
   } catch {
     // Ignore bad tokens and continue without auth
   }
 
-  next();
+  return next();
 };
 
-export const requireAuth = (req: AuthRequest, res: Response, next: NextFunction) => {
-  if (!req.user) {
+export const requireAuth: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+  const authReq = req as AuthRequest;
+  if (!authReq.user) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   return next();

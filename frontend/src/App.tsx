@@ -9,6 +9,7 @@ import OAuthCallback from './pages/OAuthCallback';
 import PlacementTest from './pages/PlacementTest';
 import Practice from './pages/Practice';
 import Register from './pages/Register';
+import Stats from './pages/Stats';
 
 function App() {
   const { token } = useAuth();
@@ -57,6 +58,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <BattleBot />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/stats"
+            element={
+              <ProtectedRoute>
+                <Stats />
               </ProtectedRoute>
             }
           />

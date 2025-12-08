@@ -64,6 +64,8 @@ model Question {
   id          String     @id @default(cuid())
   topicId     String
   topic       Topic      @relation(fields: [topicId], references: [id])
+  learningTopicId String?
+  learningTopic   LearningTopic? @relation(fields: [learningTopicId], references: [id])
   prompt      String
   choices     String[]
   answerIndex Int
@@ -71,6 +73,8 @@ model Question {
   explanation String?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+
+  @@index([learningTopicId])
 }
 
 model QuizAttempt {
@@ -103,4 +107,17 @@ model BattleMatch {
 
   @@index([userId])
   @@index([topicId])
+}
+
+model LearningTopic {
+  id          String     @id @default(cuid())
+  name        String
+  gradeLevel  Int
+  description String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  questions   Question[]
+
+  @@unique([name, gradeLevel])
+  @@index([gradeLevel])
 }

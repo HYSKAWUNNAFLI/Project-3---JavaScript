@@ -79,8 +79,9 @@ router.post('/login', async (req, res) => {
   return res.json({ token, user: buildTokenPayload(user) });
 });
 
-router.get('/me', authenticate, requireAuth, async (req: AuthRequest, res) => {
-  return res.json({ user: req.user });
+router.get('/me', authenticate, requireAuth, async (req, res) => {
+  const user = (req as AuthRequest).user;
+  return res.json({ user });
 });
 
 export default router;

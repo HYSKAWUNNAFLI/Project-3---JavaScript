@@ -19,9 +19,10 @@ const submitSchema = z.object({
     .min(1)
 });
 
-router.get('/attempts', requireAuth, async (req: AuthRequest, res) => {
+router.get('/attempts', requireAuth, async (req, res) => {
+  const user = (req as AuthRequest).user!;
   const attempts = await prisma.quizAttempt.findMany({
-    where: { userId: req.user!.userId },
+    where: { userId: user.userId },
     include: { topic: true },
     orderBy: { createdAt: 'desc' },
     take: 20
@@ -30,7 +31,8 @@ router.get('/attempts', requireAuth, async (req: AuthRequest, res) => {
   res.json({ attempts });
 });
 
-router.post('/submit', requireAuth, async (req: AuthRequest, res) => {
+router.post('/submit', requireAuth, async (req, res) => {
+  const user = (req as AuthRequest).user!;
   const parsed = submitSchema.safeParse(req.body);
   if (!parsed.success) {
     return res.status(400).json({ message: 'Invalid payload', errors: parsed.error.flatten().fieldErrors });
@@ -96,7 +98,7 @@ router.post('/submit', requireAuth, async (req: AuthRequest, res) => {
 
   const attempt = await prisma.quizAttempt.create({
     data: {
-      userId: req.user!.userId,
+      userId: user.userId,
       topicId: topicId || null,
       mode,
       score,

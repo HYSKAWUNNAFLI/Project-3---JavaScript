@@ -10,35 +10,54 @@ const Navbar = () => {
     navigate('/login');
   };
 
+  const linkClass = ({ isActive }: { isActive: boolean }) => (isActive ? 'active-link' : '');
+
   return (
     <header className="navbar">
-      <div className="brand" onClick={() => navigate('/')}>
-        <span className="brand-dot" />
-        <span>MathKid</span>
+      <div className="brand" onClick={() => navigate('/')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <img src="/logo.jpg" alt="MathKid Logo" style={{ height: '50px', width: 'auto' }} />
+        <span className="brand-name">MathKid</span>
       </div>
+
       <nav>
-        {token && (
+        {token ? (
           <>
-            <NavLink to="/dashboard">Dashboard</NavLink>
-            <NavLink to="/practice">Luyện tập</NavLink>
-            <NavLink to="/placement">Thi đầu vào</NavLink>
-            <NavLink to="/battle">Đấu bot</NavLink>
+            <NavLink to="/dashboard" className={linkClass}>
+              Trang chủ
+            </NavLink>
+            <NavLink to="/dashboard" className={linkClass}>
+              Học Tập
+            </NavLink>
+            <NavLink to="/practice" className={linkClass}>
+              Luyện tập
+            </NavLink>
+            <NavLink to="/placement" className={linkClass}>
+              Thi đầu vào
+            </NavLink>
+            <NavLink to="/battle" className={linkClass}>
+              Đấu bot
+            </NavLink>
+            <NavLink to="/stats" className={linkClass}>
+              Thống kê
+            </NavLink>
           </>
-        )}
-        {!token && (
+        ) : (
           <>
             <NavLink to="/login">Đăng nhập</NavLink>
             <NavLink to="/register">Đăng ký</NavLink>
           </>
         )}
       </nav>
+
       {token && user && (
         <div className="user-box">
           <div className="user-meta">
             <strong>{user.name}</strong>
-            <span>Khối {user.gradeLevel}</span>
+            <span style={{ fontSize: '0.8em', color: '#666' }}>Khối {user.gradeLevel}</span>
           </div>
-          <button onClick={handleLogout}>Thoát</button>
+          <button onClick={handleLogout} className="logout-btn">
+            Thoát
+          </button>
         </div>
       )}
     </header>
