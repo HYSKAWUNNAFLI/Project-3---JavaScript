@@ -1,15 +1,95 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum AttemptMode {
+  PRACTICE
+  PLACEMENT
+  QUIZ
+}
+
+enum BattleResult {
+  WIN
+  LOSS
+  DRAW
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  gradeLevel   Int
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  quizAttempts QuizAttempt[]
+  battleMatch  BattleMatch[]
+}
+
+model Topic {
+  id          String      @id @default(cuid())
+  name        String
+  gradeLevel  Int
+  description String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  questions   Question[]
+
+  @@index([gradeLevel])
+}
+
+model Question {
+  id          String     @id @default(cuid())
+  topicId     String
+  topic       Topic      @relation(fields: [topicId], references: [id])
+  prompt      String
+  choices     String[]
+  answerIndex Int
+  difficulty  Difficulty
+  explanation String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model QuizAttempt {
+  id             String      @id @default(cuid())
+  userId         String
+  topicId        String?
+  mode           AttemptMode
+  score          Int
+  totalQuestions Int
+  responses      Json
+  createdAt      DateTime    @default(now())
+  user           User        @relation(fields: [userId], references: [id])
+  topic          Topic?      @relation(fields: [topicId], references: [id])
+
+  @@index([userId])
+  @@index([topicId])
+}
+
+model BattleMatch {
+  id         String       @id @default(cuid())
+  userId     String
+  topicId    String?
+  difficulty Difficulty
+  userScore  Int
+  botScore   Int
+  result     BattleResult
+  createdAt  DateTime     @default(now())
+  user       User         @relation(fields: [userId], references: [id])
+  topic      Topic?       @relation(fields: [topicId], references: [id])
+
+  @@index([userId])
+  @@index([topicId])
 }
