@@ -25,16 +25,24 @@ enum BattleResult {
   DRAW
 }
 
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+  FACEBOOK
+}
+
 model User {
   id           String        @id @default(cuid())
   email        String        @unique
   passwordHash String
   name         String
   gradeLevel   Int
+  provider     AuthProvider  @default(LOCAL)
+  providerId   String?       @unique
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   quizAttempts QuizAttempt[]
-  battleMatch  BattleMatch[]
+  battleMatches BattleMatch[]
 }
 
 model Topic {
@@ -45,8 +53,11 @@ model Topic {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   questions   Question[]
+  quizAttempts QuizAttempt[]
+  battleMatches BattleMatch[]
 
   @@index([gradeLevel])
+  @@unique([name, gradeLevel])
 }
 
 model Question {
