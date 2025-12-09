@@ -83,7 +83,9 @@ const Learning = () => {
     <div className="page">
       <div className="card">
         <h2>Học tập</h2>
-        <p className="muted">Chọn chủ đề khối {user?.gradeLevel ?? 5}, mỗi lần lấy 10 câu hỏi ngẫu nhiên.</p>
+        <p className="muted">
+          Chọn chủ đề khớp với khối {user?.gradeLevel ?? 5}, mỗi lần lấy 10 câu hỏi ngẫu nhiên.
+        </p>
         <div className="grid-two">
           <label>
             Chủ đề

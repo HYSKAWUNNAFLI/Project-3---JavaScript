@@ -20,11 +20,12 @@ const loginSchema = z.object({
   password: z.string().min(6)
 });
 
-const buildTokenPayload = (user: { id: string; email: string; name: string; gradeLevel: number }): AuthPayload => ({
+const buildTokenPayload = (user: { id: string; email: string; name: string; gradeLevel: number; provider?: string | null }): AuthPayload => ({
   userId: user.id,
   email: user.email,
   name: user.name,
-  gradeLevel: user.gradeLevel
+  gradeLevel: user.gradeLevel,
+  provider: user.provider || 'LOCAL'
 });
 
 const signToken = (payload: AuthPayload) =>

@@ -8,6 +8,9 @@ import battleRouter from './modules/battle/battle.router';
 import questionRouter from './modules/question/question.router';
 import quizRouter from './modules/quiz/quiz.router';
 import topicRouter from './modules/topic/topic.router';
+import learningRouter from './modules/learning/learning.router';
+import statsRouter from './modules/stats/stats.router';
+import profileRouter from './modules/profile/profile.router';
 import passport from 'passport';
 
 const app = express();
@@ -49,6 +52,9 @@ app.use('/api/topics', topicRouter);
 app.use('/api/questions', questionRouter);
 app.use('/api/quiz', quizRouter);
 app.use('/api/battle', battleRouter);
+app.use('/api/learning-topics', learningRouter);
+app.use('/api/stats', statsRouter);
+app.use('/api/profile', profileRouter);
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err);

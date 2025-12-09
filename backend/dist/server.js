@@ -13,6 +13,8 @@ const battle_router_1 = __importDefault(require("./modules/battle/battle.router"
 const question_router_1 = __importDefault(require("./modules/question/question.router"));
 const quiz_router_1 = __importDefault(require("./modules/quiz/quiz.router"));
 const topic_router_1 = __importDefault(require("./modules/topic/topic.router"));
+const learning_router_1 = __importDefault(require("./modules/learning/learning.router"));
+const stats_router_1 = __importDefault(require("./modules/stats/stats.router"));
 const passport_1 = __importDefault(require("passport"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -48,6 +50,8 @@ app.use('/api/topics', topic_router_1.default);
 app.use('/api/questions', question_router_1.default);
 app.use('/api/quiz', quiz_router_1.default);
 app.use('/api/battle', battle_router_1.default);
+app.use('/api/learning-topics', learning_router_1.default);
+app.use('/api/stats', stats_router_1.default);
 app.use((err, _req, res, _next) => {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });

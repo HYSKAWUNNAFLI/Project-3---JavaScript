@@ -25,8 +25,8 @@ const Navbar = () => {
             <NavLink to="/dashboard" className={linkClass}>
               Trang chủ
             </NavLink>
-            <NavLink to="/dashboard" className={linkClass}>
-              Học Tập
+            <NavLink to="/learning" className={linkClass}>
+              Học tập
             </NavLink>
             <NavLink to="/practice" className={linkClass}>
               Luyện tập

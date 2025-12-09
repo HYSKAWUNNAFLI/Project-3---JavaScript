@@ -29,7 +29,7 @@ router.get('/', requireAuth, async (req, res) => {
       else wrong += 1;
 
       const ltId = r?.learningTopicId || 'unknown';
-      const ltName = r?.learningTopicName || 'Khác';
+      const ltName = r?.learningTopicName || 'Khac';
       if (!perLearningTopic.has(ltId)) {
         perLearningTopic.set(ltId, { name: ltName, total: 0, correct: 0, wrong: 0 });
       }
@@ -42,7 +42,7 @@ router.get('/', requireAuth, async (req, res) => {
 
   const accuracy = total ? Math.round((correct / total) * 10000) / 100 : 0;
 
-  // streak tính số ngày liên tiếp từ hiện tại ngược lại có làm bài
+  // streak tính số ngày liên tiếp tính lùi từ hôm nay, chỉ tính ngày có làm bài
   const dates = attempts
     .map((a) => new Date(a.createdAt))
     .sort((a, b) => b.getTime() - a.getTime())

@@ -7,6 +7,7 @@ export interface AuthPayload {
   email: string;
   name: string;
   gradeLevel: number;
+  provider?: string;
 }
 
 export interface AuthRequest extends Request {

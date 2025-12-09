@@ -10,6 +10,7 @@ import PlacementTest from './pages/PlacementTest';
 import Practice from './pages/Practice';
 import Register from './pages/Register';
 import Stats from './pages/Stats';
+import Learning from './pages/Learning';
 
 function App() {
   const { token } = useAuth();
@@ -66,6 +67,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Stats />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/learning"
+            element={
+              <ProtectedRoute>
+                <Learning />
               </ProtectedRoute>
             }
           />

@@ -1,0 +1,5 @@
+-- Add profile fields
+ALTER TABLE "User"
+  ADD COLUMN IF NOT EXISTS "phone" TEXT,
+  ADD COLUMN IF NOT EXISTS "dateOfBirth" TIMESTAMP(3),
+  ADD COLUMN IF NOT EXISTS "avatar" BYTEA;

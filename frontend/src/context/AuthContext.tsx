@@ -6,6 +6,10 @@ export type User = {
   email: string;
   name: string;
   gradeLevel: number;
+  provider?: string;
+  phone?: string | null;
+  dateOfBirth?: string | null;
+  avatarBase64?: string | null;
 };
 
 type AuthContextValue = {

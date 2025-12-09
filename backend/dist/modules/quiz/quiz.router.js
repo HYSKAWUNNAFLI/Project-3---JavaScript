@@ -36,7 +36,7 @@ router.post('/submit', auth_1.requireAuth, async (req, res) => {
     const questionIds = answers.map((a) => a.questionId);
     const questions = await prisma_1.prisma.question.findMany({
         where: { id: { in: questionIds } },
-        include: { topic: true }
+        include: { topic: true, learningTopic: true }
     });
     const questionMap = new Map(questions.map((q) => [q.id, q]));
     let score = 0;
@@ -53,7 +53,9 @@ router.post('/submit', auth_1.requireAuth, async (req, res) => {
             correct,
             correctIndex: question.answerIndex,
             topicId: question.topicId,
-            topicName: question.topic.name
+            topicName: question.topic.name,
+            learningTopicId: question.learningTopicId,
+            learningTopicName: question.learningTopic?.name ?? null
         };
     });
     const perTopic = new Map();

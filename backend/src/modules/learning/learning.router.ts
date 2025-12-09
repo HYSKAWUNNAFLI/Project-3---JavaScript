@@ -1,6 +1,6 @@
-import { AttemptMode, Difficulty } from '@prisma/client';
 import { Router } from 'express';
 import { z } from 'zod';
+import { AttemptMode } from '@prisma/client';
 import { requireAuth, type AuthRequest } from '../../middleware/auth';
 import { prisma } from '../../prisma';
 
