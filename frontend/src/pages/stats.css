@@ -106,3 +106,31 @@
 .stats-history {
   text-align: left;
 }
+
+.topic-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.topic-row {
+  display: grid;
+  grid-template-columns: 1fr 100px 100px;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #f1e9dc;
+}
+
+.topic-row.header {
+  font-weight: 700;
+  border-bottom: 2px solid #e7d8c6;
+}
+
+.topic-row .correct {
+  color: #24b47e;
+}
+
+.topic-row .wrong {
+  color: #e63946;
+}

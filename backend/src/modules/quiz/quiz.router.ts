@@ -43,7 +43,7 @@ router.post('/submit', requireAuth, async (req, res) => {
 
   const questions = await prisma.question.findMany({
     where: { id: { in: questionIds } },
-    include: { topic: true }
+    include: { topic: true, learningTopic: true }
   });
 
   const questionMap = new Map(questions.map((q) => [q.id, q]));
@@ -60,7 +60,9 @@ router.post('/submit', requireAuth, async (req, res) => {
       correct,
       correctIndex: question.answerIndex,
       topicId: question.topicId,
-      topicName: question.topic.name
+      topicName: question.topic.name,
+      learningTopicId: question.learningTopicId,
+      learningTopicName: question.learningTopic?.name ?? null
     };
   });
 
